@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wishes</title>
+  {% load bootstrap5 %}
+  {% bootstrap_css %}
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">CodingDojo Exam</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse " id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          {%if user != None %}
+            <li class="nav-item">   
+              <span class="nav-link" href="#">Hola {{user.name}}</span>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+            </li>    
+          {%endif%} 
+        </ul>
+      </div>
+    </div>
+  </nav><br>
+
+  {% if messages %}
+  <ul class="messages mt-5">    
+    {% for message in messages %}    
+      <li {% if message.tags %} class="bg-danger text-white p-2 {{ message.tags }}"{% endif %}>{{ message }}</li>    
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+  <section class="container mt-5">
+    <h1>Hello {{ user.first_name}}!  Make a wish</h1>
+    <form action="{% url 'create_wish' %}" method='post'>
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="item">I wish for:</label><br>
+        <input type="item" id="item" name="item" class="form-control"><br>
+      </div>
+      <div class="form-group">
+        <label for="desc">Description:</label><br>
+        <textarea  id="desc" name="desc" class="form-control"></textarea>
+      </div>
+      <div class="text-end">
+        <a href="/wishes" class="btn btn-danger m-3">Cancelar</a>  
+        <input type="submit" value="Submit" class="btn btn-dark m-3">      
+      </div>
+
+    </form>
+    
+  </section>
+</body>
+</html>

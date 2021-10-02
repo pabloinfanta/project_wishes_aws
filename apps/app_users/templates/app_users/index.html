@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wishes</title>
+  {% load bootstrap5 %}
+  {% bootstrap_css %}
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">CodingDojo Exam</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse " id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          {%if user != None %}
+            <li class="nav-item">   
+              <span class="nav-link" href="#">Hola {{user.first_name}}</span>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+            </li>
+      
+          {%endif%} 
+        </ul>
+      </div>
+    </div>
+  </nav><br>
+  
+  <div class="container mt-5">
+
+    {% if messages %}
+      <ul class="messages">    
+        {% for message in messages %}    
+          <li {% if message.tags %} class="bg-danger text-white p-2 {{ message.tags }}"{% endif %}>{{ message }}</li>    
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <div class="row">
+      <div class="col-md-6">
+        <h1>register</h1>
+        <form action="{% url 'register' %}" method='post'>
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="first_name">first_name:</label><br>
+            <input type="text" id="first_name" name="first_name" class="form-control"><br>
+          </div>
+          <div class="form-group">
+            <label for="last_name">last_name:</label><br>
+            <input type="text" id="last_name" name="last_name" class="form-control"><br>
+          </div>
+          <div class="form-group">
+            <label for="email">email:</label><br>
+            <input type="text" id="email" name="email" class="form-control"><br>
+          </div>
+          <div class="form-group">
+            <label for="password">password:</label><br>
+            <input type="password" id="password" name="password" class="form-control"><br>
+          </div>
+          <div class="form-group">
+            <label for="confirm_password">confirm_password:</label><br>
+            <input type="password" id="confirm_password" name="confirm_password" class="form-control"><br>
+          </div>
+          <div class="text-center">
+            <input type="submit" value="Add" class="btn btn-dark m-3">     
+          </div>             
+        </form> 
+      </div>
+      <div class="col-md-6">
+        <h1>login</h1>
+        <form action="{% url 'login' %}" method='post'>
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="email">email:</label><br>
+            <input type="text" id="email2" name="email" class="form-control"><br>
+          </div>
+          <div class="form-group">
+            <label for="password">password:</label><br>
+            <input type="password" id="password2" name="password" class="form-control"><br>
+          </div>
+          <div class="text-center">
+            <input type="submit" value="Add" class="btn btn-dark m-3">     
+          </div>             
+        </form>       
+      </div>
+    </div>
+  </div>    
+  
+</body>
+</html>

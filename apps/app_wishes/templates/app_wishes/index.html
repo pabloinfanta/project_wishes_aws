@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wishes</title>
+  {% load bootstrap5 %}
+  {% bootstrap_css %}
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">CodingDojo Exam</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse " id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          {%if user != None %}
+            <li class="nav-item">   
+              <span class="nav-link" href="#">Hola {{user.first_name}}</span>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+            </li>    
+          {%endif%} 
+        </ul>
+      </div>
+    </div>
+  </nav><br>
+
+  {% if messages %}
+  <ul class="messages mt-5">    
+    {% for message in messages %}    
+      <li {% if message.tags %} class="bg-danger text-white p-2 {{ message.tags }}"{% endif %}>{{ message }}</li>    
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+  <section class="container mt-5">
+    <div class= "text-end">
+      <a href="{% url 'stats' %}" class="btn btn-primary text-white">View Stats</a>
+      <a href="{% url 'form_create' %}" class="btn btn-dark text-white">Make a Wish</a>
+    </div>
+    <h2>Your wish list</h2>
+    <table class= "table table-bordered table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th>Item</th>
+          <th>Date added</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for wish in wishes %}
+          <tr>
+            <td>{{ wish.item }}</td>
+            <td>{{ wish.created_at }}</td>
+            <td>
+              <a href="{% url 'delete_wish' wish.id %}">Remove</a>
+              <a href="{% url 'form_edit' wish.id %}">Edit</a>
+              <a href="{% url 'granted_wish' wish.id %}">Granted</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h2>Granted wishes</h2>
+    <table class= "table table-bordered table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th>Item</th>
+          <th>Wisher</th>
+          <th>Date added</th>
+          <th>Date granted</th>
+          <th>Likes</th>      
+          <th>Actions</th>
+ 
+        </tr>
+      </thead>
+      <tbody>
+        {% for wish in wishes_granted %}
+          <tr>
+            <td>{{ wish.item }}</td>
+            <td>{{ wish.user.first_name }}</td>
+            <td>{{ wish.created_at }}</td>
+            <td>{{ wish.granted.updated_at }}</td>
+            <td>{{ wish.granted.likes.all.count }}</td>
+            <td><a href="{% url 'like' wish.id %}"> Like</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </section>
+</body>
+</html>
