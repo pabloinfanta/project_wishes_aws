@@ -126,5 +126,9 @@ def like(request, id):
   if user == granted.wish.user:
     messages.info(request, "No puedes dar like a tu propio deseo")
     return redirect('/wishes')
-  Like.objects.create(granted= granted)
-  return redirect('/wishes')
+  elif Like.objects.filter(user= user.id):
+    messages.info(request, "No puedes dar mas de un like")
+    return redirect('/wishes')
+  else:  
+    Like.objects.create(granted= granted, user= user)
+    return redirect('/wishes')

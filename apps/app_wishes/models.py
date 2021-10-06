@@ -27,8 +27,8 @@ class Granted(models.Model):
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
 
-
 class Like(models.Model):
   granted = models.ForeignKey(Granted, related_name="likes", on_delete = models.CASCADE)
+  user = models.ForeignKey(User, related_name="likes", on_delete = models.CASCADE)
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
